@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 
-const GenderCheckbox = ({setValue}) => {
+const GenderCheckbox = ({handleCheckbox}) => {
 	const [select1,setSelect1] = useState(false);
 	const [select2,setSelect2] = useState(false);
 
@@ -15,7 +15,7 @@ const GenderCheckbox = ({setValue}) => {
 			setSelect2(true);
 			setSelect1(false);
 		}
-		setValue(e.target.id);
+		handleCheckbox(e.target.id);
 	}
 	return (
 		<div className='flex'>
