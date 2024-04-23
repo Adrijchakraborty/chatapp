@@ -4,7 +4,7 @@ const Conversation = ({conversation,emoji,lastIdx}) => {
 
 	const { selectedConversation, setSelectedConversation } = useConversation();
 
-	console.log(selectedConversation);
+	// console.log(selectedConversation);
 
 	const isSelected = selectedConversation?._id === conversation._id;
 	return (
