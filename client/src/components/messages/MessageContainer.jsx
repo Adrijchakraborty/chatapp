@@ -3,16 +3,23 @@ import useConversation from "../../zustand/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 import { TiMessages } from "react-icons/ti";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { useAuthContext } from "../../context/AuthContext";
+import { useStateContext } from "../../context/Responsive";
 
 const MessageContainer = () => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
-
+	
 	useEffect(() => {
 		// cleanup function (unmounts)
 		return () => setSelectedConversation(null);
 	}, [setSelectedConversation]);
+
+	const {resp,setResp} = useStateContext();
+	// console.log(resp)
 	return (
-		<div className='md:min-w-[450px] flex flex-col'>
+		<div className={`min-w-[304px] ${resp && "hidden"} flex md:flex flex-col `}>
+			<GiHamburgerMenu onClick={()=>setResp((prev)=>!prev)} className="text-slate-200 text-2xl m-3 cursor-pointer md:hidden"/>
 			{!selectedConversation ? (
 				<NoChatSelected />
 			) : (
@@ -32,10 +39,11 @@ const MessageContainer = () => {
 export default MessageContainer;
 
 const NoChatSelected = () => {
+	const { authUser } = useAuthContext();
 	return (
 		<div className='flex items-center justify-center w-full h-full'>
 			<div className='px-4 text-center sm:text-lg md:text-xl text-gray-200 font-semibold flex flex-col items-center gap-2'>
-				<p>Welcome 👋 John Doe ❄</p>
+				<p>Welcome 👋 {authUser.fullName} ❄</p>
 				<p>Select a chat to start messaging</p>
 				<TiMessages className='text-3xl md:text-6xl text-center' />
 			</div>

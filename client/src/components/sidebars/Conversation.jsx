@@ -1,18 +1,30 @@
+import { useEffect } from "react";
+import { useStateContext } from "../../context/Responsive";
 import useConversation from "../../zustand/useConversation";
 
 const Conversation = ({conversation,emoji,lastIdx}) => {
 
 	const { selectedConversation, setSelectedConversation } = useConversation();
+	const {resp,setResp} = useStateContext();
 
 	// console.log(selectedConversation);
 
 	const isSelected = selectedConversation?._id === conversation._id;
+
+	const handleChange = () =>{
+		setSelectedConversation(conversation);
+		const windowWidth = window.innerWidth;
+		console.log("windowWidth=" + windowWidth);
+		windowWidth<=768 && setResp(prev=>!prev);
+	}
+
+	// console.log(resp)
 	return (
 		<>
 			<div className={`flex gap-2 items-center hover:bg-sky-500 rounded p-2 py-1 cursor-pointer
 				${isSelected ? "bg-sky-500" : ""}
 			`}
-				onClick={() => setSelectedConversation(conversation)}>
+				onClick={handleChange}>
 				<div className='avatar online'>
 					<div className='w-12 rounded-full'>
 						<img
