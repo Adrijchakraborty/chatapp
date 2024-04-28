@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useStateContext } from "../../context/Responsive";
 import useConversation from "../../zustand/useConversation";
+import { useSocketContext } from "../../context/SocketContext";
 
 const Conversation = ({conversation,emoji,lastIdx}) => {
 
@@ -11,10 +12,13 @@ const Conversation = ({conversation,emoji,lastIdx}) => {
 
 	const isSelected = selectedConversation?._id === conversation._id;
 
+	const { onlineUsers } = useSocketContext();
+	const isOnline = onlineUsers.includes(conversation._id);
+
 	const handleChange = () =>{
 		setSelectedConversation(conversation);
 		const windowWidth = window.innerWidth;
-		console.log("windowWidth=" + windowWidth);
+		// console.log("windowWidth=" + windowWidth);
 		windowWidth<=768 && setResp(prev=>!prev);
 	}
 
@@ -25,7 +29,7 @@ const Conversation = ({conversation,emoji,lastIdx}) => {
 				${isSelected ? "bg-sky-500" : ""}
 			`}
 				onClick={handleChange}>
-				<div className='avatar online'>
+				<div className={`avatar ${isOnline && "online"}`}>
 					<div className='w-12 rounded-full'>
 						<img
 							src={conversation.profilePic}
